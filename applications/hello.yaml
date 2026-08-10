@@ -12,5 +12,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: default
-  # No syncPolicy on purpose — Stage 2 is about seeing OutOfSync/Missing
-  # and syncing by hand before we ever turn on automated + selfHeal.
+  # Stage 3, experiment A: automated (git-driven) sync only. selfHeal comes
+  # later on purpose, so drift-without-selfHeal (experiment B) is observable
+  # before drift-with-selfHeal (experiment C).
+  syncPolicy:
+    automated: {}
