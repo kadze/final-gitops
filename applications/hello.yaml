@@ -12,8 +12,9 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: default
-  # Stage 3, experiment C: selfHeal now on. Live drift (not just git changes)
-  # gets corrected automatically. Compare against experiment B's result.
+  # Stage 3, experiment E part 2: prune now on. Resources removed from git
+  # get deleted, not just left orphaned (compare against part 1's result).
   syncPolicy:
     automated:
       selfHeal: true
+      prune: true
