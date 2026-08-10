@@ -1,0 +1,25 @@
+# The one Application still applied by hand — everything under applications/
+# (hello, podinfo, and anything added later) is reconciled by this instead.
+# Kept outside applications/ on purpose, so it's not managing itself.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:312school/kadze-gitops.git
+    targetRevision: main
+    path: applications
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
