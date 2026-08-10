@@ -4,7 +4,7 @@ metadata:
   name: hello
   namespace: argocd
 spec:
-  project: default
+  project: learning
   source:
     repoURL: git@github.com:312school/kadze-gitops.git
     targetRevision: main

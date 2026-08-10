@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: learning
+  namespace: argocd
+spec:
+  description: Self-learn ArgoCD sandbox — root, hello, podinfo
+  sourceRepos:
+    - git@github.com:312school/kadze-gitops.git
+    - https://stefanprodan.github.io/podinfo
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+    - server: https://kubernetes.default.svc
+      namespace: default
+    - server: https://kubernetes.default.svc
+      namespace: podinfo
+  # Only Namespace is allowed cluster-scoped (needed for CreateNamespace=true).
+  # Nothing else cluster-scoped — no ClusterRole, no CRDs, no webhook configs —
+  # can be created by anything assigned to this project.
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
