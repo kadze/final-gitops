@@ -1,0 +1,35 @@
+# Stage 6: one Application per subdirectory under generated-apps/, with zero
+# per-app YAML written by hand — the thing app-of-apps (root) can't do, since
+# root only reconciles Applications that already exist as files in git.
+#
+# Same bootstrap gap as root.yaml and projects/learning.yaml: nothing watches
+# applicationsets/ itself, so this still needs one manual kubectl apply.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: generated-apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:312school/kadze-gitops.git
+        revision: main
+        directories:
+          - path: generated-apps/*
+  template:
+    metadata:
+      name: "{{path.basename}}"
+      namespace: argocd
+    spec:
+      project: learning
+      source:
+        repoURL: git@github.com:312school/kadze-gitops.git
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
