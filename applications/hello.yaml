@@ -11,7 +11,7 @@ spec:
     path: apps/hello
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: kube-system
   # Stage 3, experiment E part 2: prune now on. Resources removed from git
   # get deleted, not just left orphaned (compare against part 1's result).
   syncPolicy:
