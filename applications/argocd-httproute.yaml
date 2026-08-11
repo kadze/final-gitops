@@ -1,0 +1,20 @@
+# ArgoCD exposing its own UI, deployed by itself. Deliberately circular —
+# see Stage 9 notes on "ArgoCD managing itself" in the decision log.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-httproute
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:312school/kadze-gitops.git
+    targetRevision: main
+    path: apps/argocd-httproute
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
