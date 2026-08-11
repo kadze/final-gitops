@@ -3,6 +3,11 @@ kind: Application
 metadata:
   name: hello
   namespace: argocd
+  # Deleting an Application does NOT cascade to its managed resources by
+  # default — this finalizer is what makes removing hello.yaml from git
+  # actually delete the Deployment/Service too, not just orphan them.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: learning
   source:

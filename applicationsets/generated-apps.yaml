@@ -20,6 +20,8 @@ spec:
     metadata:
       name: "{{path.basename}}"
       namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       project: learning
       source:
